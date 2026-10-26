@@ -37,7 +37,7 @@ O pedido é criado no servidor, com preço fixo da configuração. O navegador n
 
 ## Instalar o PDF privado
 
-O PDF que foi gerado no chat **“Curso de Importação Cssbuy”** não está na pasta local deste projeto. Baixe o anexo desse chat e coloque uma cópia em `private/course-basic.pdf` no servidor. Esse arquivo está no `.gitignore`, e o Express não publica a pasta `private`. O download acontece pela rota protegida `/api/course/download`, depois da confirmação de compra.
+O PDF do curso está em `private/course-basic.pdf` no projeto local e foi incluído na implantação de produção. Esse arquivo continua no `.gitignore`, então uma nova implantação criada somente a partir do Git precisa incluí-lo separadamente. O Express não publica a pasta `private`; o download acontece pela rota protegida `/api/course/download`, depois da confirmação de compra. `/api/health` informa `courseFileReady` para conferir se a implantação incluiu o PDF.
 
 ## Segurança implementada
 
@@ -53,9 +53,8 @@ O rate limit é por endereço IP e persiste no banco; atrás de proxy, ajuste `T
 
 ## Pendências para operar
 
-- Escolher preço, configurar uma conta de vendedor Mercado Pago e cadastrar as credenciais no ambiente da hospedagem.
-- Hospedar em HTTPS para que checkout/webhook funcionem publicamente.
-- Baixar do chat e instalar o PDF em `private/course-basic.pdf`.
+- Manter as credenciais de produção, o webhook e o PDF privado presentes em cada nova implantação.
+- Fazer uma compra real controlada para confirmar webhook, liberação de acesso e download após a aprovação.
 - Antes de anunciar, acrescentar política de privacidade, termos de compra, contato de suporte e regras de reembolso próprias.
 
 O curso avançado está planejado como uma segunda etapa: ensinará como ganhar dinheiro com importação, avaliar produtos para revenda, calcular margem e organizar uma operação comercial. Ele também incluirá as fontes de compra selecionadas pelo instrutor. As fontes devem ser revisadas antes do lançamento, e o conteúdo não deve prometer lucro garantido: resultados dependem de custos, demanda, tributos, fornecedores e execução.

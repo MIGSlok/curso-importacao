@@ -364,7 +364,11 @@ app.post('/api/payments/webhook', limit(120), async (req, res) => {
   }
 });
 
-app.get('/api/health', (_req, res) => res.json({ ok: true, checkoutReady: isCheckoutReady(), checkoutMode, database: process.env.DATABASE_URL ? 'postgresql' : 'sqlite', priceCents: Math.round(price * 100) }));
+app.get('/api/health', async (_req, res) => {
+  const pdf = path.join(root, 'private', 'course-basic.pdf');
+  const courseFileReady = await stat(pdf).then((file) => file.isFile()).catch(() => false);
+  res.json({ ok: true, checkoutReady: isCheckoutReady(), checkoutMode, database: process.env.DATABASE_URL ? 'postgresql' : 'sqlite', priceCents: Math.round(price * 100), courseFileReady });
+});
 app.use((error, _req, res, _next) => { console.error('request failed', error.message); res.status(500).json({ error: 'Erro interno.' }); });
 if (!process.env.VERCEL) app.listen(port, () => console.log(`CSSBuy course portal listening on ${appUrl.origin}`));
 export default app;
