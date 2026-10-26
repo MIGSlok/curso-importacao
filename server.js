@@ -263,10 +263,10 @@ function checkoutLink(preference) {
   return link;
 }
 app.post('/api/checkout', requireUser, async (req, res) => {
-  if (!isCheckoutReady()) return res.status(503).json({ error: 'O pagamento de teste está aguardando a configuração da conta Mercado Pago.' });
+  if (!isCheckoutReady()) return res.status(503).json({ error: 'O pagamento está aguardando a configuração da conta Mercado Pago.' });
   try { await paymentSeller(); } catch (error) {
     console.error('payment seller validation failed', error.message);
-    return res.status(503).json({ error: 'As credenciais de pagamento precisam ser configuradas para o ambiente de teste.' });
+    return res.status(503).json({ error: 'As credenciais de pagamento precisam ser configuradas.' });
   }
   const owned = await db.prepare("SELECT 1 FROM orders WHERE user_id = ? AND course_id = 'basic' AND status = 'approved' LIMIT 1").get(req.user.id);
   if (owned) return res.status(409).json({ error: 'Esta conta já tem acesso ao curso básico.' });
@@ -328,7 +328,7 @@ async function applyVerifiedPayment(payment, requiredUserId = null) {
   return payment.status;
 }
 app.post('/api/payments/reconcile', limit(12, 60000), requireUser, async (req, res) => {
-  if (!isCheckoutReady()) return res.status(503).json({ error: 'A configuração do pagamento de teste ainda está pendente.' });
+  if (!isCheckoutReady()) return res.status(503).json({ error: 'A configuração do pagamento ainda está pendente.' });
   try {
     await paymentSeller();
     const orders = await db.prepare("SELECT id FROM orders WHERE user_id = ? AND course_id = 'basic' AND preference_id IS NOT NULL ORDER BY created_at DESC LIMIT 5").all(req.user.id);

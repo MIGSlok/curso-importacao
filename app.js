@@ -1,13 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
 const auth = $('#auth');
-fetch('/api/health').then((r) => r.json()).then((config) => {
-  if (config.checkoutMode !== 'test') return;
-  const banner = document.createElement('div');
-  const priceLabel = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(config.priceCents / 100);
-  banner.textContent = `AMBIENTE DE TESTE · Curso Básico ${priceLabel} · Pagamentos simulados`;
-  banner.style.cssText = 'background:#c5f36b;color:#172013;text-align:center;padding:10px 16px;font:600 12px sans-serif;letter-spacing:.03em';
-  document.body.prepend(banner);
-}).catch(() => {});
 if (auth) {
   let mode = 'login';
   let waitingForCode = false;
@@ -43,7 +35,7 @@ if (auth) {
     $('#checkout').disabled = !data.checkoutReady;
     $('#checkout').style.opacity = data.checkoutReady ? '1' : '.55';
     const priceLabel = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(data.priceCents / 100);
-    $('#checkout').textContent = data.checkoutReady ? (data.checkoutMode === 'test' ? `Testar compra por ${priceLabel} ↗` : 'Ir para pagamento seguro ↗') : 'Ativando checkout de teste';
+    $('#checkout').textContent = data.checkoutReady ? `Finalizar compra por ${priceLabel} ↗` : 'Ativando checkout seguro';
     refreshPayment.hidden = data.ownsBasic || !data.latestPaymentStatus;
     if (!data.ownsBasic && !data.checkoutReady) showMessage(accountMessage, 'O ambiente está disponível; a credencial de pagamento ainda está sendo ativada.');
     $('#twofa-status').textContent = data.twoFactorEnabled ? 'Ativo. Seu login pede o código do aplicativo autenticador.' : 'Desativado. Ative para adicionar uma camada extra à sua conta.';
