@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+node_modules/
+data/
+private/course-basic.pdf
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+npm-debug.log*

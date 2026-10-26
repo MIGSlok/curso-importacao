@@ -1,0 +1,11 @@
+{
+  "provider": "vercel",
+  "projectId": "prj_3XJ8BUv3ZmO3rBvMT2CqAtZCeGM9",
+  "projectName": "cssbuy-curso-teste",
+  "mode": "test",
+  "expectedUrl": "https://cssbuy-curso-teste.vercel.app",
+  "deploymentId": "dpl_H8udk8mad8fshn1Kuu7KxpHUqB4S",
+  "databaseProvider": "neon",
+  "databaseProjectId": "calm-union-07080307",
+  "unclaimedDatabaseExpiresAt": "2026-10-29T06:07:30.233Z"
+}
